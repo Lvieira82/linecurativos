@@ -1,0 +1,29 @@
+{% load static %}
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>LineCurativos</title>
+<link rel="stylesheet" href="{% static 'triagem/css/style.css' %}">
+</head>
+<body>
+<main class="shell">
+<section class="hero card">
+  <span class="eyebrow">LINECURATIVOS</span>
+  <h1>Observe a ferida. Entenda os sinais. Saiba quando procurar ajuda.</h1>
+  <p>Fluxo educativo para pessoas leigas. Ele organiza informações observáveis e aponta quando uma avaliação profissional deve ser procurada.</p>
+  <div class="notice"><strong>Importante:</strong> este sistema não diagnostica feridas e não prescreve tratamento.</div>
+  <a class="primary" href="{% url 'triagem:questionario' %}">Iniciar avaliação</a>
+</section>
+<section class="card compact">
+  <h2>Como funciona</h2>
+  <ol>
+    <li>Você responde uma pergunta por vez.</li>
+    <li>As perguntas mudam conforme suas respostas.</li>
+    <li>Cada etapa possui uma referência clínica acessível por toque.</li>
+  </ol>
+</section>
+</main>
+</body>
+</html>

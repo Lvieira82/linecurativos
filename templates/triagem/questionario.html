@@ -1,0 +1,41 @@
+{% load static %}
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>LineCurativos — Avaliação</title>
+<link rel="stylesheet" href="{% static 'triagem/css/style.css' %}">
+</head>
+<body>
+<main class="shell">
+<section class="card question-card">
+  <div class="progress-label">Etapa {{ position }} de {{ total }}</div>
+  <div class="progress"><span style="width: {{ position|floatformat:0 }}00%"></span></div>
+  <h1>{{ question.title }}</h1>
+  <p class="help">{{ question.help }}</p>
+
+  <button class="source-button" type="button" data-source-title="{{ source.title|escape }}" data-source-text="{{ source.text|escape }}" data-source-url="{{ source.url|escape }}">ⓘ Ver referência</button>
+
+  <form method="post" class="answers">
+    {% csrf_token %}
+    <input type="hidden" name="current" value="{{ question_key }}">
+    {% for value,label in question.options %}
+      <button class="answer" type="submit" name="{{ question_key }}" value="{{ value }}">{{ label }}</button>
+    {% endfor %}
+  </form>
+</section>
+</main>
+
+<dialog id="sourceDialog">
+  <div class="dialog-content">
+    <button class="close" type="button" aria-label="Fechar">×</button>
+    <p class="eyebrow">REFERÊNCIA</p>
+    <h2 id="sourceTitle"></h2>
+    <p id="sourceText"></p>
+    <a id="sourceLink" class="secondary" target="_blank" rel="noopener">Abrir fonte</a>
+  </div>
+</dialog>
+<script src="{% static 'triagem/js/app.js' %}"></script>
+</body>
+</html>
