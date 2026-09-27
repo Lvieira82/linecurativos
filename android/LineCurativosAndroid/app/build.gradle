@@ -1,0 +1,5 @@
+plugins { id 'com.android.application' }
+
+android { namespace 'br.com.linecurativos'; compileSdk 36
+    defaultConfig { applicationId 'br.com.linecurativos'; minSdk 24; targetSdk 36; versionCode 1; versionName '1.0' }
+}
