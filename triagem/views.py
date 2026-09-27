@@ -33,6 +33,7 @@ def questionario(request):
                 continue
             next_key = key
             break
+
         if next_key:
             request.session["current"] = next_key
             return redirect("triagem:questionario")
@@ -41,13 +42,19 @@ def questionario(request):
     answers = request.session.get("answers", {})
     current = request.session.get("current", ORDER[0])
     question = QUESTIONS[current]
-    visible_order = [k for k in ORDER if k != "queimadura_especial" or answers.get("origem") == "queimadura"]
+    visible_order = [
+        key for key in ORDER
+        if key != "queimadura_especial" or answers.get("origem") == "queimadura"
+    ]
     position = visible_order.index(current) + 1
+    progress = round(position * 100 / len(visible_order), 1)
+
     return render(request, "triagem/questionario.html", {
         "question": question,
         "question_key": current,
         "position": position,
         "total": len(visible_order),
+        "progress": progress,
         "source": SOURCES[question["source"]],
     })
 
