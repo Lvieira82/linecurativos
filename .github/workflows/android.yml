@@ -25,10 +25,11 @@ jobs:
         with:
           packages: "platforms;android-36 build-tools;36.0.0"
 
-      - name: Configurar Gradle compatível
-        uses: gradle/actions/setup-gradle@v4
-        with:
-          gradle-version: "9.5"
+      - name: Instalar Gradle 9.5.0
+        run: |
+          wget -q https://services.gradle.org/distributions/gradle-9.5.0-bin.zip
+          unzip -q gradle-9.5.0-bin.zip -d "$HOME/gradle"
+          echo "$HOME/gradle/gradle-9.5.0/bin" >> "$GITHUB_PATH"
 
       - name: Gerar APK
         working-directory: android/LineCurativosAndroid
