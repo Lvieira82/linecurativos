@@ -14,9 +14,62 @@
   <div class="progress"><span style="width: {{ progress }}%"></span></div>
   <h1>{{ question.title }}</h1>
   <p class="help">{{ question.help }}</p>
-
   <button class="source-button" type="button" data-source-title="{{ source.title|escape }}" data-source-text="{{ source.text|escape }}" data-source-url="{{ source.url|escape }}">ⓘ Ver referência</button>
 
+  {% if question_key == "local" %}
+  <p class="body-instruction">Toque na região do corpo correspondente à ferida.</p>
+  <form method="post" id="locationForm" class="location-form">
+    {% csrf_token %}
+    <input type="hidden" name="current" value="{{ question_key }}">
+    <input type="hidden" name="local" id="locationValue">
+    <div class="body-map" aria-label="Mapa corporal interativo">
+      <div class="body-view">
+        <span class="body-label">Frente</span>
+        <svg viewBox="0 0 180 430" role="img" aria-label="Corpo humano visto de frente">
+          <circle class="body-part" data-value="rosto" cx="90" cy="38" r="25"/>
+          <rect class="body-part" data-value="rosto" x="76" y="62" width="28" height="18" rx="8"/>
+          <path class="body-part" data-value="torax" d="M65 82 Q90 70 115 82 L125 145 Q90 165 55 145 Z"/>
+          <ellipse class="body-part" data-value="abdome" cx="90" cy="174" rx="32" ry="35"/>
+          <path class="body-part" data-value="membro_superior" d="M56 88 L38 100 L24 185 L42 188 L61 125 Z"/>
+          <path class="body-part" data-value="membro_superior" d="M124 88 L142 100 L156 185 L138 188 L119 125 Z"/>
+          <path class="body-part" data-value="mao" d="M22 184 L42 188 L39 215 L28 222 L18 210 Z"/>
+          <path class="body-part" data-value="mao" d="M158 184 L138 188 L141 215 L152 222 L162 210 Z"/>
+          <path class="body-part" data-value="membro_inferior" d="M60 205 L87 205 L82 315 L68 385 L47 385 L55 300 Z"/>
+          <path class="body-part" data-value="membro_inferior" d="M120 205 L93 205 L98 315 L112 385 L133 385 L125 300 Z"/>
+          <path class="body-part" data-value="pe" d="M47 382 L68 382 L70 403 L43 407 L35 399 Z"/>
+          <path class="body-part" data-value="pe" d="M133 382 L112 382 L110 403 L137 407 L145 399 Z"/>
+          <path class="body-part" data-value="regiao_genital" d="M78 205 L102 205 L98 238 L82 238 Z"/>
+        </svg>
+      </div>
+      <div class="body-view">
+        <span class="body-label">Costas</span>
+        <svg viewBox="0 0 180 430" role="img" aria-label="Corpo humano visto de costas">
+          <circle class="body-part" data-value="rosto" cx="90" cy="38" r="25"/>
+          <rect class="body-part" data-value="costas" x="76" y="62" width="28" height="18" rx="8"/>
+          <path class="body-part" data-value="costas" d="M65 82 Q90 70 115 82 L125 145 Q90 165 55 145 Z"/>
+          <ellipse class="body-part" data-value="costas" cx="90" cy="174" rx="32" ry="35"/>
+          <path class="body-part" data-value="membro_superior" d="M56 88 L38 100 L24 185 L42 188 L61 125 Z"/>
+          <path class="body-part" data-value="membro_superior" d="M124 88 L142 100 L156 185 L138 188 L119 125 Z"/>
+          <path class="body-part" data-value="mao" d="M22 184 L42 188 L39 215 L28 222 L18 210 Z"/>
+          <path class="body-part" data-value="mao" d="M158 184 L138 188 L141 215 L152 222 L162 210 Z"/>
+          <path class="body-part" data-value="membro_inferior" d="M60 205 L87 205 L82 315 L68 385 L47 385 L55 300 Z"/>
+          <path class="body-part" data-value="membro_inferior" d="M120 205 L93 205 L98 315 L112 385 L133 385 L125 300 Z"/>
+          <path class="body-part" data-value="pe" d="M47 382 L68 382 L70 403 L43 407 L35 399 Z"/>
+          <path class="body-part" data-value="pe" d="M133 382 L112 382 L110 403 L137 407 L145 399 Z"/>
+          <ellipse class="body-part" data-value="gluteo" cx="76" cy="207" rx="14" ry="22"/>
+          <ellipse class="body-part" data-value="gluteo" cx="104" cy="207" rx="14" ry="22"/>
+        </svg>
+      </div>
+    </div>
+    <div class="selected-location" id="selectedLocation">Nenhuma região selecionada</div>
+    <div class="location-options">
+      {% for value,label in question.options %}
+      <button type="button" class="location-option" data-location="{{ value }}">{{ label }}</button>
+      {% endfor %}
+    </div>
+    <button class="continue-location" id="continueLocation" type="submit" disabled>Continuar</button>
+  </form>
+  {% else %}
   <form method="post" class="answers">
     {% csrf_token %}
     <input type="hidden" name="current" value="{{ question_key }}">
@@ -24,9 +77,9 @@
       <button class="answer" type="submit" name="{{ question_key }}" value="{{ value }}">{{ label }}</button>
     {% endfor %}
   </form>
+  {% endif %}
 </section>
 </main>
-
 <dialog id="sourceDialog">
   <div class="dialog-content">
     <button class="close" type="button" aria-label="Fechar">×</button>
