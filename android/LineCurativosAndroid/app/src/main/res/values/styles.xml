@@ -1,5 +1,5 @@
 <resources>
-    <style name="Theme.LineCurativos" parent="android:style/Theme.Material.Light.NoActionBar">
+    <style name="Theme.Qcurativo" parent="android:style/Theme.Material.Light.NoActionBar">
         <item name="android:fontFamily">sans</item>
         <item name="android:colorAccent">#0d4f66</item>
         <item name="android:navigationBarColor">#083848</item>
